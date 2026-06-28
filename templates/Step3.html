@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>خلاصه سفارش</title>
+
+<style>
+
+body{
+
+    font-family:tahoma;
+    background:#f5f6fa;
+    margin:30px;
+
+}
+
+.container{
+
+    max-width:900px;
+    margin:auto;
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
+
+}
+
+h2{
+
+    text-align:center;
+    color:#198754;
+
+}
+
+.customer{
+
+    font-size:22px;
+    margin-bottom:20px;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#198754;
+    color:white;
+    padding:10px;
+
+}
+
+td{
+
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+
+}
+
+.summary{
+
+    margin-top:25px;
+    font-size:20px;
+    line-height:40px;
+
+}
+
+button{
+
+    width:100%;
+    margin-top:30px;
+    padding:15px;
+    background:#198754;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:20px;
+    cursor:pointer;
+
+}
+
+button:hover{
+
+    background:#157347;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>
+
+✅ سفارش با موفقیت ثبت شد
+
+</h2>
+
+<div class="customer">
+
+<b>مشتری :</b>
+
+<span id="customer"></span>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>برند</th>
+
+<th>کالا</th>
+
+<th>تعداد</th>
+
+<th>جمع ریالی</th>
+
+</tr>
+
+</thead>
+
+<tbody id="rows">
+
+</tbody>
+
+</table>
+
+<div class="summary">
+
+<div>
+
+تعداد ردیف کالا :
+
+<b id="rowsCount"></b>
+
+</div>
+
+<div>
+
+جمع تعداد :
+
+<b id="qtyTotal"></b>
+
+</div>
+
+<div>
+
+جمع ریالی سفارش :
+
+<b id="priceTotal"></b>
+
+</div>
+
+</div>
+
+<button onclick="newOrder()">
+
+ثبت سفارش جدید
+
+</button>
+
+</div>
+
+<script>
+
+let order =
+JSON.parse(sessionStorage.getItem("orderResult"));
+
+if(!order){
+
+    window.location="/";
+
+}
+
+document.getElementById("customer").innerText =
+order.customer;
+
+let html="";
+
+order.items.forEach(i=>{
+
+html+=`
+
+<tr>
+
+<td>${i.brand}</td>
+
+<td>${i.title}</td>
+
+<td>${i.qty}</td>
+
+<td>${Number(i.total).toLocaleString()}</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("rows").innerHTML=html;
+
+document.getElementById("rowsCount").innerText=
+order.rows;
+
+document.getElementById("qtyTotal").innerText=
+order.qty;
+
+document.getElementById("priceTotal").innerText=
+Number(order.total).toLocaleString()+" ریال";
+
+function newOrder(){
+
+    sessionStorage.removeItem("orderResult");
+
+    window.location="/";
+
+}
+
+</script>
+
+</body>
+
+</html>
